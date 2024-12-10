@@ -23,5 +23,5 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           export REPO_URL="https://huggingface.co/spaces/forestav/llm-as-a-judge"
-          git remote add hf $REPO_URL
+          git remote add hf https://user:${HF_TOKEN}@huggingface.co/spaces/forestav/llm-as-a-judge
           git push hf HEAD:main --force
