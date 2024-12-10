@@ -31,14 +31,21 @@ Quantization method: `float16`
 
 ### Hyperparameters
 
-Both models used the same hyperparameters during training.\
-`lora_alpha=16`: Scaling factor for low-rank matrices' contribution. Higher increases influence, speeds up convergence, risks instability/overfitting. Lower gives small effect, but may require more training steps.\
+Both models used the same hyperparameters during training.
+
+`lora_alpha=16`: Scaling factor for low-rank matrices' contribution. Higher increases influence, speeds up convergence, risks instability/overfitting. Lower gives small effect, but may require more training steps.
+
 `lora_dropout=0`: Probability of zeroing out elements in low-rank matrices for regularization. Higher gives more regularization but may slow training and degrade performance.\
-`per_device_train_batch_size=2`:\
-`gradient_accumulation_steps=4`: The number of steps to accumulate gradients before performing a backpropagation update. Higher accumulates gradients over multiple steps, increasing the batch size without requiring additional memory. Can improve training stability and convergence if you have a large model and limited hardware.\
-`learning_rate=2e-4`: Rate at which the model updates its parameters during training. Higher gives faster convergence but risks overshooting optimal parameters and instability. Lower requires more training steps but better performance.\
-`optim="adamw_8bit"`\: Using the Adam optimizer, a gradient descent method with momentum.\
-`weight_decay=0.01`: Penalty to add to the weights during training to prevent overfitting. The value is proportional to the magnitude of the weights to the loss function.\
+`per_device_train_batch_size=2`:
+
+`gradient_accumulation_steps=4`: The number of steps to accumulate gradients before performing a backpropagation update. Higher accumulates gradients over multiple steps, increasing the batch size without requiring additional memory. Can improve training stability and convergence if you have a large model and limited hardware.
+
+`learning_rate=2e-4`: Rate at which the model updates its parameters during training. Higher gives faster convergence but risks overshooting optimal parameters and instability. Lower requires more training steps but better performance.
+
+`optim="adamw_8bit"`: Using the Adam optimizer, a gradient descent method with momentum.
+
+`weight_decay=0.01`: Penalty to add to the weights during training to prevent overfitting. The value is proportional to the magnitude of the weights to the loss function.
+
 `lr_scheduler_type="linear"`: We decrease the learning rate linearly.
 
 These hyperparameters are [suggested as default](https://docs.unsloth.ai/tutorials/how-to-finetune-llama-3-and-export-to-ollama) when using Unsloth. However, to experiment with them we also tried to finetune a third model by changing the hyperparameters, keeping some of of the above but changing to:
@@ -102,7 +109,7 @@ Please evaluate the responses based on the selected criteria. For each criterion
 
 ### Results
 
-![image/png](https://cdn-uploads.huggingface.co/production/uploads/6601e305a4d296af0703f56a/-dy-a44LT_U2FEqap3Zri.png)
+![image/png](https://cdn-uploads.huggingface.co/production/uploads/6601e305a4d296af0703f56a/-dy-a44LT_U2FEqap3Zri.png)\
 **p1** : `temperature=0.5` and `min_p=0.05` during inference\
 **p2**: `temperature=1.5` and `min_p=0.1` `during inference
 
