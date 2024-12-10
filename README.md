@@ -19,13 +19,13 @@ The models were finetuned using [Unsloth](https://unsloth.ai/), a framework whic
 
 ### forestav/LoRA-2000
 
-Finetuned on 2000 steps
-Quantization method: float16
+Finetuned on 2000 steps.\
+Quantization method: `float16`
 
 ### KolumbusLindh/LoRA-4100
 
-Finetuned on 4100 steps
-Quantization method: float16
+Finetuned on 4100 steps.\
+Quantization method: `float16`
 
 ### Hyperparameters
 
