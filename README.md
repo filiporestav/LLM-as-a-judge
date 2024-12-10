@@ -37,8 +37,7 @@ Both models used the same hyperparameters during training.\
 `weight_decay=0.01`\
 `lr_scheduler_type="linear"`
 
-We chose float16 as the quantization method as it has the fastest conversion and retains 100% accuracy. However, it is slow and memory hungry which is a disadvantage.
-Source: https://github.com/unslothai/unsloth/wiki
+We chose float16 as the quantization method as it according to [Unsloth wiki](https://github.com/unslothai/unsloth/wiki) has the fastest conversion and retains 100% accuracy. However, it is slow and memory hungry which is a disadvantage.
 
 ## Judge
 
