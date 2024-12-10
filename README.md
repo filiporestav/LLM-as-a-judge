@@ -11,7 +11,7 @@ pinned: false
 
 This is a space where you can compare two models using the technique "LLM as a Judge". LLM as a Judge uses a LLM itself for judging the response from two LLMs, and compare them based on certain evaluation metrics which are relevant for the task.
 
-In this space, our default placeholder repos and models compare two LLMs finetuned on the same base model, [Llama 3.2 3B parameter model](unsloth/Llama-3.2-3B-Instruct). Both of them are finetuned on the FineTome-100k dataset, but they have been finetuned on a different amount of data.
+In this space, our default placeholder repos and models compare two LLMs finetuned on the same base model, [Llama 3.2 3B parameter model](unsloth/Llama-3.2-3B-Instruct). Both of them are finetuned on the [FineTome-100k dataset](https://huggingface.co/datasets/mlabonne/FineTome-100k), but they have been finetuned on a different amount of data.
 
 The models were finetuned using [Unsloth](https://unsloth.ai/), a framework which allows finetuning, training and inference with LLMs 2x faster.
 
@@ -30,14 +30,23 @@ Quantization method: `float16`
 ### Hyperparameters
 
 Both models used the same hyperparameters during training.\
-`lora_alpha=16`
-`lora_dropout=0`
+`lora_alpha=16`\
+`lora_dropout=0`\
 `per_device_train_batch_size=2`\
 `gradient_accumulation_steps=4`\
 `learning_rate=2e-4`\
 `optim="adamw_8bit"`\
 `weight_decay=0.01`\
 `lr_scheduler_type="linear"`
+
+These hyperparameters are [suggested as default](https://docs.unsloth.ai/tutorials/how-to-finetune-llama-3-and-export-to-ollama) when using Unsloth. However, to experiment with them we also tried to finetune a third model by changing the hyperparameters, keeping some of of the above but changing to:
+
+`dropout=0.3`\
+`per_device_train_batch_size=20`\
+`gradient_accumulation_steps=40`\
+`learning_rate=2e-2`\
+
+The effects of this were evident. One step took around 10 minutes due to the increased `gradient_accumulation_steps`, and it required significant amount of memory from the GPU due to `per_device_train_batch_size=20`. It also overfitted just in 15 steps, achieving `loss=0`, due to the high learning rate. We wanted to try if the dropout could prevent overfitting while at the same time having a high learning rate, but it could not.
 
 Both models have a max sequence length of 2048 tokens. This means that they only process the 2048 first tokens in the input.
 

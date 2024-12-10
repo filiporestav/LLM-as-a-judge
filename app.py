@@ -15,9 +15,7 @@ def generate_response(model, prompt):
     return response["choices"][0]["text"]
 
 # Evaluate responses using the LoRA evaluation model
-def evaluate_responses(prompt, repo_a, model_a, repo_b, model_b, evaluation_criteria):
-    if len(evaluation_criteria) > 3:
-        return "Error: Please select up to 3 evaluation criteria only."
+def evaluate_responses(prompt, repo_a, model_a, repo_b, model_b):
 
     # Load models
     model_a_instance = load_user_model(repo_a, model_a)
