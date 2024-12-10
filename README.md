@@ -11,7 +11,7 @@ pinned: false
 
 This is a space where you can compare two models using the technique "LLM as a Judge". LLM as a Judge uses a LLM itself for judging the response from two LLMs, and compare them based on certain evaluation metrics which are relevant for the task.
 
-In this space, our default placeholder repos and models compare two LLMs finetuned on the same base model, [Llama 3.2 3B parameter model](unsloth/Llama-3.2-3B-Instruct). Both of them are finetuned on the [FineTome-100k dataset](https://huggingface.co/datasets/mlabonne/FineTome-100k), but they have been finetuned on a different amount of data.
+In this space, our default placeholder repos and models compare two LLMs finetuned on the same base model, [Llama 3.2 3B parameter model](unsloth/Llama-3.2-3B-Instruct). Both of them are finetuned on the [FineTome-100k dataset](https://huggingface.co/datasets/mlabonne/FineTome-100k), but they have been finetuned on different amounts of data.
 
 The models were finetuned using [Unsloth](https://unsloth.ai/), a framework which allows finetuning, training and inference with LLMs 2x faster.
 
@@ -46,7 +46,7 @@ Both models used the same hyperparameters during training.
 
 `weight_decay=0.01`: Penalty to add to the weights during training to prevent overfitting. The value is proportional to the magnitude of the weights to the loss function.
 
-`lr_scheduler_type="linear"`: We decrease the learning rate linearly.
+`lr_scheduler_type="linear"`: We increase the learning rate linearly during warm up.
 
 These hyperparameters are [suggested as default](https://docs.unsloth.ai/tutorials/how-to-finetune-llama-3-and-export-to-ollama) when using Unsloth. However, to experiment with them we also tried to finetune a third model by changing the hyperparameters, keeping some of of the above but changing to:
 
@@ -129,10 +129,12 @@ The combination of a relatively high temperature but a small nucleus sampling pa
 
 #### More steps needed to get more significant difference
 
-Something to mention, however, is that the different between the model trained on 2000 steps versus 6150 steps is not that different regarding the evaluation results. We believe that we still need more data to finetune this model for it to make a more signifiant difference. Since the model trained on 2000 steps is capable of providing instructions (and the learning rate increases the most in the beginning), just training the model on more instructions will have a diminishing return. We likely need to train the model on 2 epochs or something like that in order for us to really see a large difference.
+Something to mention, however, is that the difference between the model trained on 2000 steps versus 6150 steps is not that different regarding the evaluation results. We believe that we still need more data to finetune this model for it to make a more signifiant difference. Since the model trained on 2000 steps is capable of providing instructions (and the learning rate increases the most in the beginning), just training the model on more instructions will have a diminishing return. We likely need to train the model on 2 epochs or something like that in order for us to really see a large difference.
 
 #### Further improvements
 
 For further improvement, we should finetuned the model on more data. We should do at least 1-2 epochs on the FineTome-100k dataset, and then watch out closely for overfitting.
 
 For even further improvement, the entire [The Tome](https://huggingface.co/datasets/arcee-ai/The-Tome) dataset (which the FineTome-100k is a subset of), with almost 20x the amount of data should be used for finetuning. However, this requires substantial time and/or more computational resources.
+
+For improving the comparison further, we would have generated more responses from different promps and preferebly have a human as a judge instead of a LLM, as humans in the end are the ones who are going to use the responses.
