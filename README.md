@@ -24,9 +24,9 @@ Both models were trained with a [Tesla T4 GPU](https://www.nvidia.com/en-us/data
 Finetuned on 2000 steps.\
 Quantization method: `float16`
 
-### KolumbusLindh/LoRA-4100
+### KolumbusLindh/LoRA-6150
 
-Finetuned on 4100 steps.\
+Finetuned on 6150 steps.\
 Quantization method: `float16`
 
 ### Hyperparameters
@@ -56,7 +56,7 @@ We chose float16 as the quantization method as it according to [Unsloth wiki](ht
 
 ## Judge
 
-We are using the KolumbusLindh/LoRA-4100 model as a judge. However, for better accuracy one should use a stronger model such as GPT-4, which can evaluate the responses more thoroughly.
+We are using the KolumbusLindh/LoRA-6150 model as a judge. However, for better accuracy one should use a stronger model such as GPT-4, which can evaluate the responses more thoroughly.
 
 ## Evaluation using GPT-4
 
