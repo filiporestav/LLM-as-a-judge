@@ -24,11 +24,7 @@ Both models were trained with a [Tesla T4 GPU](https://www.nvidia.com/en-us/data
 Finetuned on 2000 steps.\
 Quantization method: `float16`
 
-<<<<<<< HEAD
 ### [KolumbusLindh/LoRA-6150](https://huggingface.co/KolumbusLindh/LoRA-6150)
-=======
-### KolumbusLindh/LoRA-6150
->>>>>>> 75cd24f6cdb16d874aa394eeaa0b75fb67c5ea09
 
 Finetuned on 6150 steps.\
 Quantization method: `float16`
