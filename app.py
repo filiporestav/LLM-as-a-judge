@@ -32,14 +32,13 @@ def evaluate_responses(prompt, repo_a, model_a, repo_b, model_b, evaluation_crit
     print(f"Response B: {response_b}")
     
     # Format the evaluation prompt
-    criteria_list = ", ".join(evaluation_criteria)
     evaluation_prompt = f"""
 Prompt: {prompt}
 
 Response A: {response_a}
 Response B: {response_b}
 
-Evaluation Criteria: {criteria_list}
+Evaluation Criteria: Relevance, Coherence and Completeness
 
 Please evaluate the responses based on the selected criteria. For each criterion, rate both responses on a scale from 1 to 4 and provide a justification. Finally, declare the winner (or 'draw' if they are equal).
 """
@@ -53,7 +52,7 @@ Please evaluate the responses based on the selected criteria. For each criterion
     
     # Combine results for display
     final_output = f"""
-Evaluation Results:\n{evaluation_results}
+{evaluation_results}
 """
     return final_output, response_a, response_b
 
@@ -82,10 +81,6 @@ with gr.Blocks(title="LLM as a Judge") as demo:
 
     # Prompt and criteria inputs
     prompt_input = gr.Textbox(label="Enter Prompt", placeholder="Enter the prompt here...", lines=3)
-    criteria_dropdown = gr.CheckboxGroup(
-        label="Select Up to 3 Evaluation Criteria",
-        choices=["Clarity", "Completeness", "Accuracy", "Relevance", "User-Friendliness", "Depth", "Creativity"]
-    )
 
     # Button and outputs
     evaluate_button = gr.Button("Evaluate Models")
@@ -94,7 +89,7 @@ with gr.Blocks(title="LLM as a Judge") as demo:
         with gr.Column():
             response_a = gr.Textbox(
                 label="Response A",
-                placeholder="The response for Model A will appear here...",
+                placeholder="The response from Model A will appear here...",
                 lines=20,
                 interactive=False
             )
@@ -102,11 +97,12 @@ with gr.Blocks(title="LLM as a Judge") as demo:
         with gr.Column():
             response_b = gr.Textbox(
                 label="Response B",
-                placeholder="The response for Model B will appear here...",
+                placeholder="The response from Model B will appear here...",
                 lines=20,
                 interactive=False
             )
 
+    gr.Markdown("### The LLMs are evaluated based on the criterion of Relevance, Coherence and Completeness.")
     evaluation_output = gr.Textbox(
         label="Evaluation Results",
         placeholder="The evaluation results will appear here...",
@@ -117,7 +113,7 @@ with gr.Blocks(title="LLM as a Judge") as demo:
     # Link evaluation function
     evaluate_button.click(
         fn=evaluate_responses,
-        inputs=[prompt_input, repo_a_input, model_a_input, repo_b_input, model_b_input, criteria_dropdown],
+        inputs=[prompt_input, repo_a_input, model_a_input, repo_b_input, model_b_input],
         outputs=[evaluation_output, response_a, response_b]
     )
 
