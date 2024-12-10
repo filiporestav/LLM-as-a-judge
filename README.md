@@ -17,6 +17,8 @@ The models were finetuned using [Unsloth](https://unsloth.ai/), a framework whic
 
 ## Default models and their hyperparameters
 
+Both models were trained with a [Tesla T4 GPU](https://www.nvidia.com/en-us/data-center/tesla-t4/) with 16GB of GDDR6 memory and 2560 CUDA cores.
+
 ### forestav/LoRA-2000
 
 Finetuned on 2000 steps.\
