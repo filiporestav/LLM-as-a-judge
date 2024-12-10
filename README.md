@@ -36,7 +36,8 @@ Both models used the same hyperparameters during training.
 `lora_alpha=16`: Scaling factor for low-rank matrices' contribution. Higher increases influence, speeds up convergence, risks instability/overfitting. Lower gives small effect, but may require more training steps.
 
 `lora_dropout=0`: Probability of zeroing out elements in low-rank matrices for regularization. Higher gives more regularization but may slow training and degrade performance.\
-`per_device_train_batch_size=2`:
+
+`per_device_train_batch_size=2`: Batch size per device (GPU/TPU or core/CPU)
 
 `gradient_accumulation_steps=4`: The number of steps to accumulate gradients before performing a backpropagation update. Higher accumulates gradients over multiple steps, increasing the batch size without requiring additional memory. Can improve training stability and convergence if you have a large model and limited hardware.
 
