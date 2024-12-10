@@ -13,11 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Install Hugging Face Hub
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install huggingface_hub
+          echo "::add-path::$(python3 -m site --user-base)/bin"
+
       - name: Sync with Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           huggingface-cli repo sync-to-space \
-          --repo-id forestav/llm-as-a-judge \
-          --local-path . \
-          --commit-message "Auto-sync from GitHub"
+            --repo-id forestav/llm-as-a-judge \
+            --local-path . \
+            --commit-message "Auto-sync from GitHub"
