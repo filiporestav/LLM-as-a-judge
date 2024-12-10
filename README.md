@@ -37,13 +37,13 @@ Both models used the same hyperparameters during training.\
 `per_device_train_batch_size=2`:\
 `gradient_accumulation_steps=4`: The number of steps to accumulate gradients before performing a backpropagation update. Higher accumulates gradients over multiple steps, increasing the batch size without requiring additional memory. Can improve training stability and convergence if you have a large model and limited hardware.\
 `learning_rate=2e-4`: Rate at which the model updates its parameters during training. Higher gives faster convergence but risks overshooting optimal parameters and instability. Lower requires more training steps but better performance.\
-`optim="adamw_8bit"`\
+`optim="adamw_8bit"`\: Using the Adam optimizer, a gradient descent method with momentum.
 `weight_decay=0.01`: Penalty to add to the weights during training to prevent overfitting. The value is proportional to the magnitude of the weights to the loss function.\
-`lr_scheduler_type="linear"`
+`lr_scheduler_type="linear"`: We decrease the learning rate linearly.
 
 These hyperparameters are [suggested as default](https://docs.unsloth.ai/tutorials/how-to-finetune-llama-3-and-export-to-ollama) when using Unsloth. However, to experiment with them we also tried to finetune a third model by changing the hyperparameters, keeping some of of the above but changing to:
 
-`dropout=0.3`\
+`lora_dropout=0.3`\
 `per_device_train_batch_size=20`\
 `gradient_accumulation_steps=40`\
 `learning_rate=2e-2`
