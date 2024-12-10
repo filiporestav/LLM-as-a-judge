@@ -44,7 +44,7 @@ These hyperparameters are [suggested as default](https://docs.unsloth.ai/tutoria
 `dropout=0.3`\
 `per_device_train_batch_size=20`\
 `gradient_accumulation_steps=40`\
-`learning_rate=2e-2`\
+`learning_rate=2e-2`
 
 The effects of this were evident. One step took around 10 minutes due to the increased `gradient_accumulation_steps`, and it required significant amount of memory from the GPU due to `per_device_train_batch_size=20`. It also overfitted just in 15 steps, achieving `loss=0`, due to the high learning rate. We wanted to try if the dropout could prevent overfitting while at the same time having a high learning rate, but it could not.
 
