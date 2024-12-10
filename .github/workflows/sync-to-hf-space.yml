@@ -18,6 +18,6 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           huggingface-cli repo sync-to-space \
-          --repo-id <YOUR_HF_USERNAME>/<YOUR_SPACE_NAME> \
+          --repo-id forestav/llm-as-a-judge \
           --local-path . \
           --commit-message "Auto-sync from GitHub"
