@@ -3,22 +3,21 @@ name: Sync to Hugging Face Space
 on:
   push:
     branches:
-      - main  # Replace with your default branch if different
+      - main # Replace with your default branch if different
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Sync with Hugging Face Space
-      env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}
-      run: |
-        pip install huggingface_hub
-        python -m huggingface_hub repo sync-to-space \
-          --repo-id forestav/llm-as-a-judge \
+      - name: Sync with Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          huggingface-cli repo sync-to-space \
+          --repo-id <YOUR_HF_USERNAME>/<YOUR_SPACE_NAME> \
           --local-path . \
           --commit-message "Auto-sync from GitHub"
