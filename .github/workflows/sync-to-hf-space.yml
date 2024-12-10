@@ -13,16 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install Hugging Face Hub
+      - name: Configure Git
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install huggingface_hub
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
 
-      - name: Sync with Hugging Face Space
+      - name: Push to Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          huggingface-cli repo sync-to-space \
-            --repo-id forestav/llm-as-a-judge \
-            --local-path . \
-            --commit-message "Auto-sync from GitHub"
+          export REPO_URL="https://huggingface.co/spaces/forestav/llm-as-a-judge"
+          git remote add hf $REPO_URL
+          git push hf HEAD:main --force
