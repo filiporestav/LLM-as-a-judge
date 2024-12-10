@@ -17,7 +17,6 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install huggingface_hub
-          echo "::add-path::$(python3 -m site --user-base)/bin"
 
       - name: Sync with Hugging Face Space
         env:
