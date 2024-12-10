@@ -11,7 +11,7 @@ def load_user_model(repo_id, model_file):
 
 # Generate a response using the specified model and prompt
 def generate_response(model, prompt):
-    response = model(prompt, max_tokens=512, temperature=0.5)
+    response = model(prompt, max_tokens=1024, temperature=1.5, min_p=0.1)
     return response["choices"][0]["text"]
 
 # Evaluate responses using the LoRA evaluation model
@@ -44,7 +44,8 @@ Please evaluate the responses based on the selected criteria. For each criterion
     evaluation_response = lora_model.create_completion(
         prompt=evaluation_prompt,
         max_tokens=512,
-        temperature=0.5
+        temperature=1.5,
+        min_p=0.1
     )
     evaluation_results = evaluation_response["choices"][0]["text"]
     
@@ -56,7 +57,7 @@ Please evaluate the responses based on the selected criteria. For each criterion
 
 # Load the LoRA evaluation model
 def load_lora_model():
-    repo_id = "KolumbusLindh/LoRA-4100"
+    repo_id = "KolumbusLindh/LoRA-6150"
     model_file = "unsloth.F16.gguf"
     print(f"Downloading LoRA evaluation model from repository {repo_id}...")
     local_path = hf_hub_download(repo_id=repo_id, filename=model_file)
@@ -74,7 +75,7 @@ with gr.Blocks(title="LLM as a Judge") as demo:
     # Model inputs
     repo_a_input = gr.Textbox(label="Model A Repository", placeholder="Enter the Hugging Face repo name for Model A...", value="forestav/LoRA-2000")
     model_a_input = gr.Textbox(label="Model A File Name", placeholder="Enter the model filename for Model A...", value="unsloth.F16.gguf")
-    repo_b_input = gr.Textbox(label="Model B Repository", placeholder="Enter the Hugging Face repo name for Model B...", value="KolumbusLindh/LoRA-4100")
+    repo_b_input = gr.Textbox(label="Model B Repository", placeholder="Enter the Hugging Face repo name for Model B...", value="KolumbusLindh/LoRA-6150")
     model_b_input = gr.Textbox(label="Model B File Name", placeholder="Enter the model filename for Model B...", value="unsloth.F16.gguf")
 
     # Prompt and criteria inputs

@@ -19,14 +19,14 @@ The models were finetuned using [Unsloth](https://unsloth.ai/), a framework whic
 
 Both models were trained with a [Tesla T4 GPU](https://www.nvidia.com/en-us/data-center/tesla-t4/) with 16GB of GDDR6 memory and 2560 CUDA cores.
 
-### forestav/LoRA-2000
+### [forestav/LoRA-2000](https://huggingface.co/forestav/LoRA-2000)
 
 Finetuned on 2000 steps.\
 Quantization method: `float16`
 
-### KolumbusLindh/LoRA-4100
+### [KolumbusLindh/LoRA-6150](https://huggingface.co/KolumbusLindh/LoRA-6150)
 
-Finetuned on 4100 steps.\
+Finetuned on 6150 steps.\
 Quantization method: `float16`
 
 ### Hyperparameters
@@ -56,32 +56,76 @@ We chose float16 as the quantization method as it according to [Unsloth wiki](ht
 
 ## Judge
 
-We are using the KolumbusLindh/LoRA-4100 model as a judge. However, for better accuracy one should use a stronger model such as GPT-4, which can evaluate the responses more thoroughly.
+We are using the KolumbusLindh/LoRA-6150 model as a judge. However, for better accuracy one should use a stronger model such as GPT-4, which can evaluate the responses more thoroughly.
 
 ## Evaluation using GPT-4
 
-To better evaluate our fine-tuned models, we let GPT-4 be our judge, when the respective model answered the following prompts:
+To better evaluate our fine-tuned models, we let GPT-4 be our judge, when the respective model answered the following prompts with different kinds of instructions:
 
 1. Describe step-by-step how to set up a tent in a windy environment.
 
-2. How-To Guidance: "Explain how to bake a chocolate cake without using eggs."
+2. Explain how to bake a chocolate cake without using eggs.
 
-3. Troubleshooting: "Provide instructions for troubleshooting a laptop that won’t turn on."
+3. Provide instructions for troubleshooting a laptop that won’t turn on.
 
-4. Educational Explanation: "Teach a beginner how to solve a Rubik’s Cube in simple steps."
+4. Teach a beginner how to solve a Rubik’s Cube in simple steps.
 
-5. DIY Project: "Give detailed instructions for building a birdhouse using basic tools."
+5. Give detailed instructions for building a birdhouse using basic tools.
 
-6. Fitness Routine: "Design a beginner-friendly 15-minute workout routine that requires no equipment."
+6. Design a beginner-friendly 15-minute workout routine that requires no equipment.
 
-7. Cooking Tips: "Explain how to properly season and cook a medium-rare steak."
+7. Explain how to properly season and cook a medium-rare steak.
 
-8. Technical Guidance: "Write a step-by-step guide for setting up a local Git repository and pushing code to GitHub."
+8. Write a step-by-step guide for setting up a local Git repository and pushing code to GitHub.
 
-9. Emergency Response: "Provide instructions for administering first aid to someone with a sprained ankle."
+9. Provide instructions for administering first aid to someone with a sprained ankle.
 
-10. Language Learning: "Outline a simple plan for a beginner to learn Spanish in 30 days."
+10. Outline a simple plan for a beginner to learn Spanish in 30 days.
+
+Each model was evaluated by GPT using the following prompt:
+
+```
+Prompt:
+
+Response 1:
+
+Response 2:
+
+Response 3:
+
+Response 4:
+
+Evaluation Criteria: Relevance, Coherence and Completeness
+
+Please evaluate the responses based on the selected criteria. For each criterion, rate the response on a scale from 1 to 4. Answer only with the total sum for each response.
+```
 
 ### Results
 
-#### Prompt 1: Describe step-by-step how to set up a tent in a windy environment.
+![image/png](https://cdn-uploads.huggingface.co/production/uploads/6601e305a4d296af0703f56a/-dy-a44LT_U2FEqap3Zri.png)
+**p1** : `temperature=0.5` and `min_p=0.05` during inference\
+**p2**: `temperature=1.5` and `min_p=0.1` `during inference
+
+### Discussion
+
+We can see on the results that all models perform relatively good. However, we see that changing inference parameters significantly influenced the results. Setting `min_p=0.1` and `temperature=0.5` improved the quality of the answers, being more creative but still relevant. We saw this in this [Tweet](https://x.com/menhguin/status/1826132708508213629) as well.
+
+#### The temperature
+
+The temperature essentially controls how creative the generation should be, by scaling the logits (raw output probabilities) before they are converted into probabilities via the softmax function. A higher temperature (>1) allows the model to explore less common words or phrases, whereas a lower temperature (<1) makes the output more deterministic and favoring the most probable tokens.
+
+#### The minimum p parameter ("top-p" or nucleus sampling parameter)
+
+This parameter controls which subset of tokens that are considered when generating the next token, with only the most probable tokens being in the sample pool. The cumulative probabilities of the tokens are calculated and sorted, and tokens are included in the sampling pool until the cumulative probability exceeds min_p. Then, the model samples from this reduced set of tokens. A higher min_p (closer to 1) allows more tokens into the pool, leading to a more diverse output. Lower min_p values (e.g. 0.1) restricts the pool to a few of the most probable tokens.
+
+The combination of a relatively high temperature but a small nucleus sampling parameter makes the model generate a diverse and somewhat random output due to the high temperature, while still limiting it to only the most topmost likely tokens within a cumulative probability of 10%.
+
+#### More steps needed to get more significant difference
+
+Something to mention, however, is that the different between the model trained on 2000 steps versus 6150 steps is not that different regarding the evaluation results. We believe that we still need more data to finetune this model for it to make a more signifiant difference. Since the model trained on 2000 steps is capable of providing instructions (and the learning rate increases the most in the beginning), just training the model on more instructions will have a diminishing return. We likely need to train the model on 2 epochs or something like that in order for us to really see a large difference.
+
+#### Further improvements
+
+For further improvement, we should finetuned the model on more data. We should do at least 1-2 epochs on the FineTome-100k dataset, and then watch out closely for overfitting.
+
+For even further improvement, the entire [The Tome](https://huggingface.co/datasets/arcee-ai/The-Tome) dataset (which the FineTome-100k is a subset of), with almost 20x the amount of data should be used for finetuning. However, this requires substantial time and/or more computational resources.
