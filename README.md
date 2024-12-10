@@ -30,11 +30,11 @@ Quantization method: float16
 ### Hyperparameters
 
 Both models used the same hyperparameters during training.
-`per_device_train_batch_size = 2`
-`gradient_accumulation_steps=4`
-`learning_rate=2e-4`
-`optim="adamw_8bit"`
-`weight_decay=0.01`
+`per_device_train_batch_size = 2`\
+`gradient_accumulation_steps=4`\
+`learning_rate=2e-4`\
+`optim="adamw_8bit"`\
+`weight_decay=0.01`\
 `lr_scheduler_type="linear"`
 
 We chose float16 as the quantization method as it has the fastest conversion and retains 100% accuracy. However, it is slow and memory hungry which is a disadvantage.
