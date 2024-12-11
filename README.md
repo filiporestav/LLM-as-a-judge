@@ -29,6 +29,9 @@ Quantization method: `float16`
 Finetuned on 6150 steps.\
 Quantization method: `float16`
 
+### Colab Finetuning
+https://colab.research.google.com/drive/1xkac7K3Oq5A5Ll2SqPC3_p3hIXqv8F4M?usp=sharing
+
 ### Hyperparameters
 
 Both models used the same hyperparameters during training.
